@@ -11,7 +11,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 import { WagmiProvider } from 'wagmi';
-import { baseSepolia, bscTestnet, xdcTestnet } from 'wagmi/chains';
+import { baseSepolia, sepolia } from 'wagmi/chains';
 
 import { Toaster } from '@/components/ui/toaster';
 
@@ -24,7 +24,7 @@ const config = getDefaultConfig({
       wallets: [metaMaskWallet, walletConnectWallet],
     },
   ],
-  chains: [bscTestnet, baseSepolia],
+  chains: [sepolia, baseSepolia],
   ssr: false,
 });
 

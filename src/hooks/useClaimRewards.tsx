@@ -1,10 +1,10 @@
 import { Address, erc20Abi } from 'viem';
-import { baseSepolia, bscTestnet } from 'viem/chains';
+import { baseSepolia, sepolia } from 'viem/chains';
 import { useReadContract } from 'wagmi';
 
 import useGetAddress from '@/hooks/useGetAddress';
 
-import { USDC_BINANCE, USDC_SEPOLIA_BASE } from '@/constant/constants';
+import { USDC_SEPOLIA_BASE, USDC_SEPOLIA_ETH } from '@/constant/constants';
 
 const useClaimRewards = ({ chainId }: { chainId: number }) => {
   const { data: address } = useGetAddress();
@@ -12,8 +12,8 @@ const useClaimRewards = ({ chainId }: { chainId: number }) => {
   if (chainId === baseSepolia.id) {
     contractAddress = USDC_SEPOLIA_BASE;
   }
-  if (chainId === bscTestnet.id) {
-    contractAddress = USDC_BINANCE;
+  if (chainId === sepolia.id) {
+    contractAddress = USDC_SEPOLIA_ETH;
   }
   return useReadContract({
     query: {

@@ -1,10 +1,13 @@
-import { bscTestnet } from 'viem/chains';
+import { Address } from 'viem';
+import { sepolia } from 'viem/chains';
 import { useReadContracts } from 'wagmi';
 
 import useGetAddress from '@/hooks/useGetAddress';
 
-import { REWARD_MANAGER_ABI } from '@/constant/abi';
+import { RewardManagerABI } from '@/constant/abi';
 import { REWARD_MANAGER } from '@/constant/addresses';
+
+import { sepoliaConfig } from './useIsUserWhitelisted';
 
 // const useGetRewardDetails = ({ chainId }: { chainId: number }) => {
 const useGetRewardDetails = ({ selectedChain }: { selectedChain: number }) => {
@@ -31,11 +34,12 @@ const useGetRewardDetails = ({ selectedChain }: { selectedChain: number }) => {
       //   args: [address as Address],
       // },
       {
-        abi: REWARD_MANAGER_ABI,
+        abi: RewardManagerABI,
         address: REWARD_MANAGER,
-        chainId: bscTestnet.id,
+        chainId: sepolia.id,
+        config: sepoliaConfig,
         functionName: 'rewardBalances',
-        args: [address],
+        args: [address as Address],
       },
       // {
       //   abi: REWARD_MANAGER_ABI,

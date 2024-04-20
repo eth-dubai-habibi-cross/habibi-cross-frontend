@@ -3,7 +3,7 @@ import { PaymasterMode } from '@biconomy/account';
 import { useMutation } from '@tanstack/react-query';
 import { Contract, ethers } from 'ethers';
 import { useCallback } from 'react';
-import { bscTestnet } from 'viem/chains';
+import { baseSepolia, morphSepolia, sepolia, xdcTestnet } from 'viem/chains';
 
 import useClaimRewards from '@/hooks/useClaimRewards';
 import useGetRewardDetails from '@/hooks/useGetRewardDetails';
@@ -12,7 +12,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import useGlobalStore from '@/store/store';
 
-import { REWARD_MANAGER_ABI } from '@/constant/abi';
+import { RewardManagerABI } from '@/constant/abi';
 import {
   DESTINATION_CONTRACT_ADDRESS,
   REWARD_MANAGER,
@@ -44,13 +44,14 @@ const useClaimMutation = ({
         toast({
           title: 'Awaiting transaction',
         });
+        return "sasas"
         const provider = new ethers.providers.JsonRpcProvider(
-          'https://data-seed-prebsc-1-s1.bnbchain.org:8545'
+          'https://rpc.sepolia.org'
         );
         const address = await smartAccount?.getAccountAddress();
         const contractInstance = new Contract(
           REWARD_MANAGER,
-          REWARD_MANAGER_ABI,
+          RewardManagerABI,
           provider
         );
         const txParams = {
@@ -58,11 +59,34 @@ const useClaimMutation = ({
           from: address,
           signatureType: 'EIP712_SIGN',
         };
-        if (chainId === bscTestnet.id) {
+        if (chainId === sepolia.id) {
           const { data } =
             await contractInstance.populateTransaction.claimRewardSource();
           txParams.data = data;
-        } else {
+        } else if (chainId === baseSepolia.id) {
+          const { data } =
+            await contractInstance.populateTransaction.claimRewards(
+              DESTINATION_CHAIN_SELECTOR,
+              DESTINATION_CONTRACT_ADDRESS
+            );
+          txParams.data = data;
+        } else if (chainId === morphSepolia.id) {
+          const contractInstance = new Contract(
+            REWARD_MANAGER,
+            RewardManagerABI,
+            provider.getSigner(address)
+          );
+          console.log(address, "Addre");
+          debugger
+          const s = await contractInstance.transferToMorph(address, BigInt(1))
+          debugger
+          const { data } =
+            await contractInstance.populateTransaction.claimRewards(
+              DESTINATION_CHAIN_SELECTOR,
+              DESTINATION_CONTRACT_ADDRESS
+            );
+          txParams.data = data;
+        } else if (chainId === xdcTestnet.id) {
           const { data } =
             await contractInstance.populateTransaction.claimRewards(
               DESTINATION_CHAIN_SELECTOR,
@@ -70,12 +94,12 @@ const useClaimMutation = ({
             );
           txParams.data = data;
         }
-
         const userOpResponse = await smartAccount?.sendTransaction(txParams, {
           paymasterServiceData: { mode: PaymasterMode.SPONSORED },
         });
         const tx = await userOpResponse.waitForTxHash();
         console.log(tx, "tx");
+        debugger
         await refetch();
         await refetchClaim();
         // console.info("Transaction Hash", transactionHash);
@@ -84,7 +108,9 @@ const useClaimMutation = ({
             title: 'Transaction successful',
           });
         }, 20000);
+        return tx.transactionHash
       } catch (error) {
+        debugger
         toast({
           title: 'Transaction failed',
         });

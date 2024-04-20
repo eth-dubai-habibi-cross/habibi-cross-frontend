@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 import { formatUnits } from 'viem';
-import { baseSepolia, bscTestnet } from 'viem/chains';
+import { baseSepolia, morphSepolia } from 'viem/chains';
 
 import useBiconomy from '@/hooks/useBiconomy';
 import useClaimMutation from '@/hooks/useClaimMutation';
@@ -58,11 +58,11 @@ const getButtonCta = ({
   if (!isUserWhitelisted) {
     return 'You are not whitelisted';
   }
-  if (isClaimed) {
-    return "You have successfully claimed the reward"
-  }
+  // if (isClaimed) {
+  //   return "You have successfully claimed the reward"
+  // }
   if (reward === '' || reward === '0') {
-    return 'You have no reward balance';
+    return "You have successfully claimed the reward";
   }
   return 'Claim rewards';
 };
@@ -88,17 +88,20 @@ const Homepage = () => {
     id: number;
     name: string;
   }>({
-    name: baseSepolia.name,
-    id: baseSepolia.id,
+    name: morphSepolia.name,
+    id: morphSepolia.id,
   });
 
   const { data: smartAccountAddy, isLoading: isAddressLoading } =
     useGetAddress();
 
-  const { data: claimedReward, refetch: refetchClaim } = useClaimRewards({
+  const { data: claimedReward, refetch: refetchClaim, error } = useClaimRewards({
     chainId: selectedChain.id,
   });
 
+
+
+  const [txHash, setTxHash] = useState('')
   const { smartAccount } = useGlobalStore();
   const { mutateAsync, isPending: isConnectPending } = useBiconomy();
   const {
@@ -108,6 +111,9 @@ const Homepage = () => {
   } = useGetRewardDetails({
     selectedChain: selectedChain.id,
   });
+
+  console.log(claimedReward, "claimedReward", error, rewardDetails);
+
   const { isPending, mutateAsync: claimRewards } = useClaimMutation({
     selectedChain,
   });
@@ -115,9 +121,8 @@ const Homepage = () => {
     useIsUserWhiteListed();
   const { toast } = useToast();
 
-
   const reward = rewardDetails
-    ? formatUnits(BigInt(Big(rewardDetails[0].result as string).toString()), 18)
+    ? formatUnits(BigInt(Big(rewardDetails[0].result?.toString() as string).toString()), 18)
     : '';
 
 
@@ -273,7 +278,10 @@ const Homepage = () => {
                             await mutateAsync();
                             return;
                           }
-                          await claimRewards({ chainId: selectedChain.id });
+                          const rewardtx = await claimRewards({ chainId: selectedChain.id });
+                          if (rewardtx) {
+                            setTxHash(setTxHash)
+                          }
                           await refetch();
                           await refetchClaim();
                         }}
@@ -312,7 +320,6 @@ const Homepage = () => {
                   </CardItem>
                   {claimedReward &&
                     claimedReward &&
-                    (reward === '0' || reward === '') &&
                     isUserWhitelisted ? (
                     <div className='p-6 pt-0 grid gap-4'>
                       <div className='grid gap-2'>
@@ -332,7 +339,7 @@ const Homepage = () => {
                           }
                           disabled
                         />
-                        {selectedChain.id === bscTestnet.id && (
+                        {/* {selectedChain.id === bscTestnet.id && (
                           <div className='flex items-center pt-4  justify-center'>
                             <ArrowLink
                               href='https://ccip.chain.link/msg/0x0f88c417c71cb7f19d2bfee769eb392846d45f73eca1a6d1a208ea62a17323aa'
@@ -341,15 +348,18 @@ const Homepage = () => {
                               Transaction on {selectedChain.name}
                             </ArrowLink>
                           </div>
-                        )}
+                        )} */}
                         {selectedChain.id === baseSepolia.id && (
+
                           <div className='flex items-center pt-4 justify-between'>
-                            <ArrowLink
-                              href='https://ccip.chain.link/msg/0x0f88c417c71cb7f19d2bfee769eb392846d45f73eca1a6d1a208ea62a17323aa'
-                              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                            >
-                              Transaction on Chainlink
-                            </ArrowLink>
+                            {txHash &&
+                              <ArrowLink
+                                href={'https://ccip.chain.link/tx/' + txHash}
+                                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                              >
+                                Transaction on Chainlink
+                              </ArrowLink>
+                            }
                             <ArrowLink
                               href='https://sepolia.basescan.org/token/0x54d562b3a8b680f8a21d721d22f0bb58a3787555'
                               className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'

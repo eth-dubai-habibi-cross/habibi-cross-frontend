@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
-import { baseSepolia, bscTestnet, morphSepolia, xdcTestnet } from 'wagmi/chains';
+import { baseSepolia, morphSepolia, sepolia, xdcTestnet } from 'wagmi/chains';
 
 import { cn } from '@/lib/utils';
 
@@ -64,11 +64,11 @@ const ChainSelector = ({
         </button>
         <button
           onClick={() => {
-            setSelectedChain({ id: bscTestnet.id, name: bscTestnet.name });
+            setSelectedChain({ id: sepolia.id, name: sepolia.name });
           }}
           className={cn(
             'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input  hover:text-accent-foreground h-10 px-4 py-2',
-            chain.id === bscTestnet.id && 'bg-[#8C8C8C]',
+            chain.id === sepolia.id && 'bg-[#8C8C8C]',
             'hover:bg-[#8C8C8C]'
           )}
         >

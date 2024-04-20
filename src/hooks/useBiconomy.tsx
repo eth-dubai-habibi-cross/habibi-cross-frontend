@@ -10,7 +10,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 import useGlobalStore from '@/store/store';
 
-const BICONOMY_API_KEY = 'CVR6PwxcA.6e2333d3-7cbd-4b9d-acdb-0d490b86bbdf';
+const BICONOMY_API_KEY = 'uPfcURYvC.cbd1a374-9004-4290-93a5-84261ac4609a';
 
 const useBiconomy = () => {
   const { toast } = useToast();
@@ -19,6 +19,7 @@ const useBiconomy = () => {
   const { setSmartAccount } = useGlobalStore();
   // const url = `https://bundler.biconomy.io/api/v2/${sepolia.id}/${BICONOMY_API_KEY}`
   const url = `https://bundler.biconomy.io/api/v2/${sepolia.id}/${BICONOMY_API_KEY}`;
+  // https://paymaster.biconomy.io/api/v1/11155111/uPfcURYvC.cbd1a374-9004-4290-93a5-84261ac4609a
 
   // https://paymaster.biconomy.io/api/v1/97/CVR6PwxcA.6e2333d3-7cbd-4b9d-acdb-0d490b86bbdf
 
