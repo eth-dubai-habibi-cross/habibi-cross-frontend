@@ -44,7 +44,6 @@ const useClaimMutation = ({
         toast({
           title: 'Awaiting transaction',
         });
-        return "sasas"
         const provider = new ethers.providers.JsonRpcProvider(
           'https://rpc.sepolia.org'
         );
@@ -77,9 +76,7 @@ const useClaimMutation = ({
             provider.getSigner(address)
           );
           console.log(address, "Addre");
-          debugger
           const s = await contractInstance.transferToMorph(address, BigInt(1))
-          debugger
           const { data } =
             await contractInstance.populateTransaction.claimRewards(
               DESTINATION_CHAIN_SELECTOR,
@@ -99,7 +96,6 @@ const useClaimMutation = ({
         });
         const tx = await userOpResponse.waitForTxHash();
         console.log(tx, "tx");
-        debugger
         await refetch();
         await refetchClaim();
         // console.info("Transaction Hash", transactionHash);
@@ -110,7 +106,6 @@ const useClaimMutation = ({
         }, 20000);
         return tx.transactionHash
       } catch (error) {
-        debugger
         toast({
           title: 'Transaction failed',
         });
