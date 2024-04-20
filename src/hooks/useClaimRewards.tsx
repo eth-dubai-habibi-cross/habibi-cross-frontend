@@ -20,7 +20,7 @@ const useClaimRewards = ({ chainId }: { chainId: number }) => {
       enabled: !!address,
       refetchInterval: 5000,
     },
-    account: address,
+    account: address as Address,
     abi: erc20Abi,
     chainId: chainId,
     address: contractAddress as Address,

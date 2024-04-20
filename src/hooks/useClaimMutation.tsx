@@ -29,12 +29,13 @@ const useClaimMutation = ({
 }) => {
   const { smartAccount } = useGlobalStore();
   const { toast } = useToast();
+
   const { refetch } = useGetRewardDetails({
-    selectedChain: bscTestnet.id,
+    selectedChain: selectedChain.id,
   });
 
   const { refetch: refetchClaim } = useClaimRewards({
-    chainId: bscTestnet.id,
+    chainId: selectedChain.id,
   });
 
   const claimRewards = useCallback(

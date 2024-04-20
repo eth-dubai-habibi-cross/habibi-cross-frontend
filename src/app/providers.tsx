@@ -11,7 +11,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 import { WagmiProvider } from 'wagmi';
-import { baseSepolia, bscTestnet } from 'wagmi/chains';
+import { baseSepolia, bscTestnet, xdcTestnet } from 'wagmi/chains';
 
 import { Toaster } from '@/components/ui/toaster';
 
