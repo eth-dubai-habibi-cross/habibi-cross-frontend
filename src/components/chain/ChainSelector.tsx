@@ -5,7 +5,6 @@ import { baseSepolia, bscTestnet, morphSepolia, xdcTestnet } from 'wagmi/chains'
 
 import { cn } from '@/lib/utils';
 
-import { useToast } from '@/components/ui/use-toast';
 
 const ChainSelector = ({
   chain,
@@ -22,7 +21,6 @@ const ChainSelector = ({
     }>
   >;
 }) => {
-  const { toast } = useToast();
 
   return (
     <div className='p-6 pt-0 grid gap-4 mt-2'>
@@ -70,30 +68,12 @@ const ChainSelector = ({
           }}
           className={cn(
             'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input  hover:text-accent-foreground h-10 px-4 py-2',
-            chain.id === bscTestnet.id && 'bg-[#F0B90B]',
-            'hover:bg-[#F0B90B]'
+            chain.id === bscTestnet.id && 'bg-[#8C8C8C]',
+            'hover:bg-[#8C8C8C]'
           )}
         >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <g clip-path='url(#clip0_6_309)'>
-              <path
-                d='M5.424 12L2.736 14.688L0 12L2.736 9.264L5.424 12ZM12 5.424L16.656 10.08L19.392 7.344L12 0L4.656 7.344L7.392 10.08L12 5.424ZM21.264 9.264L18.576 12L21.312 14.736L24 12L21.264 9.264ZM12 18.576L7.344 13.92L4.608 16.656L12 24L19.344 16.656L16.656 13.92L12 18.576ZM12 14.688L14.736 11.952L12 9.264L9.264 12L12 14.688Z'
-                fill='white'
-              />
-            </g>
-            <defs>
-              <clipPath id='clip0_6_309'>
-                <rect width='24' height='24' fill='white' />
-              </clipPath>
-            </defs>
-          </svg>
-          &nbsp; Binance
+          <Image src="/images/sepolia.png" alt='Sepolia' width={12} height={10} />
+          &nbsp; Sepolia
         </button>
         <button
           onClick={() => {

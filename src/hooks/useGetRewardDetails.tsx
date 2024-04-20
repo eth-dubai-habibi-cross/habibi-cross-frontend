@@ -10,7 +10,6 @@ import { REWARD_MANAGER } from '@/constant/addresses';
 const useGetRewardDetails = ({ selectedChain }: { selectedChain: number }) => {
   const { data: address } = useGetAddress();
   // let contractAddress = '';
-  console.log(selectedChain);
   // if (chainId === base.id) {
   //   contractAddress = USDC_SEPOLIA_BASE;
   // }

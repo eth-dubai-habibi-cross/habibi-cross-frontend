@@ -4,7 +4,7 @@ import { CHAIN_NAMESPACES } from '@web3auth/base';
 import { Web3Auth } from '@web3auth/modal';
 import { ethers } from 'ethers';
 import { useWalletClient } from 'wagmi';
-import { bscTestnet } from 'wagmi/chains';
+import { sepolia } from 'wagmi/chains';
 
 import { useToast } from '@/components/ui/use-toast';
 
@@ -17,21 +17,22 @@ const useBiconomy = () => {
   const { data: walletClient } = useWalletClient();
 
   const { setSmartAccount } = useGlobalStore();
-  // const url = `https://bundler.biconomy.io/api/v2/${bscTestnet.id}/${BICONOMY_API_KEY}`
-  const url = `https://bundler.biconomy.io/api/v2/${bscTestnet.id}/${BICONOMY_API_KEY}`;
+  // const url = `https://bundler.biconomy.io/api/v2/${sepolia.id}/${BICONOMY_API_KEY}`
+  const url = `https://bundler.biconomy.io/api/v2/${sepolia.id}/${BICONOMY_API_KEY}`;
 
   // https://paymaster.biconomy.io/api/v1/97/CVR6PwxcA.6e2333d3-7cbd-4b9d-acdb-0d490b86bbdf
+
 
   const createSmartAccount = async () => {
     if (!walletClient) return;
     const chainConfig = {
       chainNamespace: CHAIN_NAMESPACES.EIP155,
-      chainId: '0x61',
-      rpcTarget: bscTestnet.rpcUrls.default.http[0],
-      displayName: bscTestnet.name,
-      blockExplorer: bscTestnet.blockExplorers.default.url,
-      ticker: bscTestnet.nativeCurrency.symbol,
-      tickerName: bscTestnet.nativeCurrency.symbol,
+      chainId: '0xAA36A7',
+      rpcTarget: sepolia.rpcUrls.default.http[0],
+      displayName: sepolia.name,
+      blockExplorer: sepolia.blockExplorers.default.url,
+      ticker: sepolia.nativeCurrency.symbol,
+      tickerName: sepolia.nativeCurrency.symbol,
     };
     try {
       const web3auth = new Web3Auth({
@@ -66,7 +67,7 @@ const useBiconomy = () => {
         biconomyPaymasterApiKey: config.biconomyPaymasterApiKey,
         bundlerUrl: config.bundlerUrl,
         rpcUrl: chainConfig.rpcTarget,
-        chainId: bscTestnet.id,
+        chainId: sepolia.id,
       });
       setSmartAccount(smartWallet);
       return smartWallet;
