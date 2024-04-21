@@ -280,7 +280,7 @@ const Homepage = () => {
                           }
                           const rewardtx = await claimRewards({ chainId: selectedChain.id });
                           if (rewardtx) {
-                            setTxHash(setTxHash)
+                            setTxHash(rewardtx)
                           }
                           await refetch();
                           await refetchClaim();
