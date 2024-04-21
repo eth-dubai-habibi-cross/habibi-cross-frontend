@@ -318,6 +318,8 @@ const Homepage = () => {
                       </ClaimButton>
                     )}
                   </CardItem>
+                  {txHash !== "" ? <div className='text-[14px] p-6 pt-0 grid gap-4 text-center'>Transactions typically complete within 1-2 minutes. Feel free to grab a coffee and some nachos, and voilà—it'll be done before you know it!</div> : ''}
+
                   {claimedReward &&
                     isUserWhitelisted ? (
                     <div className='p-6 pt-0 grid gap-4'>
@@ -363,6 +365,7 @@ const Homepage = () => {
                       )}
                     </div> : ''
                   }
+
                 </div>
               </CardBody>
             </CardContainer>
