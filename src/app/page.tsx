@@ -319,7 +319,6 @@ const Homepage = () => {
                     )}
                   </CardItem>
                   {claimedReward &&
-                    claimedReward &&
                     isUserWhitelisted ? (
                     <div className='p-6 pt-0 grid gap-4'>
                       <div className='grid gap-2'>
@@ -339,38 +338,31 @@ const Homepage = () => {
                           }
                           disabled
                         />
-                        {/* {selectedChain.id === bscTestnet.id && (
-                          <div className='flex items-center pt-4  justify-center'>
-                            <ArrowLink
-                              href='https://ccip.chain.link/msg/0x0f88c417c71cb7f19d2bfee769eb392846d45f73eca1a6d1a208ea62a17323aa'
-                              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                            >
-                              Transaction on {selectedChain.name}
-                            </ArrowLink>
-                          </div>
-                        )} */}
-                        {selectedChain.id === baseSepolia.id && (
-
-                          <div className='flex items-center pt-4 justify-between'>
-                            {txHash &&
-                              <ArrowLink
-                                href={'https://ccip.chain.link/tx/' + txHash}
-                                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                              >
-                                Transaction on Chainlink
-                              </ArrowLink>
-                            }
-                            <ArrowLink
-                              href='https://sepolia.basescan.org/token/0x54d562b3a8b680f8a21d721d22f0bb58a3787555'
-                              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                            >
-                              Transaction on {selectedChain.name}
-                            </ArrowLink>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ) : null}
+                  {(txHash !== "" || (claimedReward && Big(claimedReward.toString()).gt(0))) ?
+                    <div className='p-6 pt-0 grid gap-4'>
+                      {selectedChain.id === baseSepolia.id && (
+                        <div className='flex items-center pt-4 justify-between'>
+                          {txHash &&
+                            <ArrowLink
+                              href={'https://ccip.chain.link/tx/' + txHash}
+                              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                            >
+                              Transaction on Chainlink
+                            </ArrowLink>
+                          }
+                          <ArrowLink
+                            href='https://sepolia.basescan.org/token/0x54d562b3a8b680f8a21d721d22f0bb58a3787555'
+                            className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                          >
+                            Transaction on {selectedChain.name}
+                          </ArrowLink>
+                        </div>
+                      )}
+                    </div> : ''
+                  }
                 </div>
               </CardBody>
             </CardContainer>
