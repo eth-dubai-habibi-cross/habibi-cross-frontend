@@ -25,7 +25,7 @@ const useBiconomy = () => {
 
 
   const createSmartAccount = async () => {
-    if (!walletClient) return;
+    // if (!walletClient) return;
     const chainConfig = {
       chainNamespace: CHAIN_NAMESPACES.EIP155,
       chainId: '0xAA36A7',
